@@ -8,6 +8,8 @@ terraform {
       version = "~> 6.0"
     }
   }
+
+  backend "s3" {}
 }
 
 # Configure AWS Provider
@@ -254,8 +256,7 @@ resource "aws_instance" "web_server_1" {
 
 resource "aws_key_pair" "web_server_key" {
   key_name   = "web_server_key"
-  public_key = file("web-server-key.pub")
-
+  public_key = var.ssh_public_key
   tags = {
     Name = "Key pair for web server access"
   }
@@ -334,4 +335,3 @@ resource "aws_vpc_security_group_ingress_rule" "rds_db_sg_ingress_mysql" {
 #     Name = "RDS DB Secondary Read Replica"
 #   }
 # }
-
